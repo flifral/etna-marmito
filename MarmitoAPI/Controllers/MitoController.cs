@@ -16,10 +16,19 @@ namespace MarmitoAPI.Controllers
             m_context = context;
         }
 
+        [HttpGet("{id}", Name = "GetMito")]
+        public IActionResult GetById(long id)
+        {
+            var mito = m_context.Mitos.FirstOrDefault(u => u.Id == id);
+            if (mito == null)
+            {
+                return NotFound();
+            }
+            return new ObjectResult(mito);
+        }
         [HttpPost]
         public IActionResult mito([FromHeader] Token token, [FromBody] Mito mito)
         {
-            Console.WriteLine(token.TokenValue);
             if (mito == null)
             {
                 return BadRequest();
@@ -28,7 +37,7 @@ namespace MarmitoAPI.Controllers
             m_context.Add(mito);
             m_context.SaveChanges();
 
-            return Ok();
+            return CreatedAtRoute("GetMito", new {id = mito.Id}, mito);
         }
     }
 }
