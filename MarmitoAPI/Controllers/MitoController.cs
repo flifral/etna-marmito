@@ -16,6 +16,12 @@ namespace MarmitoAPI.Controllers
             m_context = context;
         }
 
+        [HttpGet]
+        public IEnumerable<Mito> GetAll()
+        {
+            return m_context.Mitos.ToList();
+        }
+
         [HttpGet("{id}", Name = "GetMito")]
         public IActionResult GetById(long id)
         {
