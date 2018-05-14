@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -31,8 +33,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <!--li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li-->
+                    <!--li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li-->
+
+                    @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("tokenValue"))
+                    {
+                        <li><a asp-area="" asp-controller="Mito" asp-action="Index">Mito</a></li>
+                        <li><a asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Auth" asp-action="Register">Enregistrer</a></li>
+                        <li><a asp-area="" asp-controller="Auth" asp-action="Login">Se connecter</a></li>
+                    }
                 </ul>
             </div>
         </div>

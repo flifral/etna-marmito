@@ -1,0 +1,24 @@
+@model MarmitoAPI.Models.User;
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Enregistrer nouvel utilisateur</h1>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name"/>
+        <span asp-validation-for="Name"></span>
+        <label asp-for="Email"></label>
+        <input asp-for="Email"/>
+        <span asp-validation-for="Email"></span>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password"/>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <input type="submit" value="Créer utilisateur"/>
+    </div>
+</form>

@@ -1,0 +1,21 @@
+@model MarmitoAPI.Models.Login;
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Se connecter</h1>
+
+<form asp-action="LoginUser" method="post">
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email"/>
+        <span asp-validation-for="Email"></span>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password"/>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <input type="submit" value="Se connecter"/>
+    </div>
+</form>

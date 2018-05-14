@@ -17,9 +17,13 @@ namespace MarmitoAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Mito> GetAll()
+        public IActionResult GetAll()
         {
-            return m_context.Mitos.ToList();
+            if (!HttpContext.Request.Headers.ContainsKey("tokenValue") || !Auth.getAuth().isLogged(HttpContext.Request.Headers["tokenValue"]))
+            {
+                return BadRequest();
+            }
+            return new ObjectResult(m_context.Mitos.ToList());
         }
 
         [HttpGet("{id}", Name = "GetMito")]
@@ -30,10 +34,16 @@ namespace MarmitoAPI.Controllers
             {
                 return NotFound();
             }
+
+            if (!HttpContext.Request.Headers.ContainsKey("tokenValue") || !Auth.getAuth().isLogged(HttpContext.Request.Headers["tokenValue"]))
+            {
+                return BadRequest();
+            }
+
             return new ObjectResult(mito);
         }
         [HttpPost]
-        public IActionResult mito([FromHeader] Token token, [FromBody] Mito mito)
+        public IActionResult mito([FromBody] Mito mito)
         {
             if (mito == null)
             {

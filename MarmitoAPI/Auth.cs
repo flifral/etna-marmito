@@ -29,5 +29,10 @@ namespace MarmitoAPI
             m_auths[uuidstring] = user;
             return uuidstring;
         }
+
+        public Boolean isLogged(string tokenValue)
+        {
+            return m_auths.ContainsKey(tokenValue);
+        }
     }
 }

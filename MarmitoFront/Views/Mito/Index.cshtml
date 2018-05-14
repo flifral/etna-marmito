@@ -1,3 +1,56 @@
+@model dynamic;
+
 @{
     ViewData["Title"] = "Index";
 }
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mito</th>
+            <th>Categorie</th>
+            <th>Auteur</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (MarmitoAPI.Models.Mito mito in Model.Mitos)
+        {
+            <tr>
+                <td>@Html.DisplayFor(item => mito.Content)</td>
+                @if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
+                {
+                    <td>Indisponible</td>
+                }
+                else if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.FAMILY)
+                {
+                    <td>Famille</td>
+                }
+                else if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.WORK)
+                {
+                    <td>Travail</td>
+                }
+                else if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.LOVE)
+                {
+                    <td>Amour</td>
+                }
+                else
+                {
+                    <td>Autres</td>
+                }
+
+                @{
+                    List<MarmitoAPI.Models.User> users = Model.Users;
+                    var user = users.Find(u => u.Id == mito.AuthorId);
+                    var userName = "Auteur inconnu";
+                    if (user != null)
+                    {
+                        userName = user.Name;
+                    }
+                }
+                <td>@userName</td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
