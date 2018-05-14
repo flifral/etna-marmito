@@ -40,6 +40,11 @@ namespace MarmitoAPI.Controllers
                 return BadRequest();
             }
 
+            if (m_context.Users.FirstOrDefault(u => u.Id == mito.AuthorId) == null)
+            {
+                return BadRequest();
+            }
+
             m_context.Add(mito);
             m_context.SaveChanges();
 

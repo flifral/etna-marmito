@@ -7,9 +7,11 @@ namespace MarmitoAPI.Models
     {
         public enum CategoryList
         {
-            MITO = 0,
-            EXCUSE = 1,
-        }
+            INDISP = 0,
+            FAMILY = 1,
+            WORK = 2,
+            LOVE = 3
+        };
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
