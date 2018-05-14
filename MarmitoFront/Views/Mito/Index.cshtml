@@ -1,8 +1,11 @@
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
 @model dynamic;
 
 @{
     ViewData["Title"] = "Index";
 }
+
+<a asp-controller="Mito" asp-action="Create">Créer Mito</a>
 
 <table class="table">
     <thead>
@@ -10,12 +13,14 @@
             <th>Mito</th>
             <th>Categorie</th>
             <th>Auteur</th>
+            <th>Edition</th>
+            <th>Suppression</th>
         </tr>
     </thead>
     <tbody>
         @foreach (MarmitoAPI.Models.Mito mito in Model.Mitos)
         {
-            <tr>
+            <tr class="mito" id="@mito.Id">
                 <td>@Html.DisplayFor(item => mito.Content)</td>
                 @if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
                 {
@@ -48,6 +53,15 @@
                     }
                 }
                 <td>@userName</td>
+
+                @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("Id"))
+                {
+                    if (mito.AuthorId.ToString() == httpContextAccessor.HttpContext.Request.Cookies["Id"])
+                    {
+                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Id">Éditer</a></li></td>
+                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Remove" asp-route-id="@mito.Id">Suppression</a></li></td>
+                    }
+                }
 
             </tr>
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace MarmitoFront.Controllers
     public class MitoController : Controller
     {
         private API m_api = new API();
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
@@ -44,6 +46,52 @@ namespace MarmitoFront.Controllers
             model.Users = users;
 
             return View(model);
+        }
+
+        public async Task<IActionResult> Remove(long Id)
+        {
+            if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+            HttpClient client = m_api.getClient();
+            client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
+            var res = await client.DeleteAsync("api/mito/" + Id.ToString());
+            if (res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Mito");
+            }
+            else
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Add(MarmitoAPI.Models.Mito mito)
+        {
+            if (!HttpContext.Request.Cookies.ContainsKey("tokenValue") ||
+                !HttpContext.Request.Cookies.ContainsKey("Id"))
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+
+            HttpClient client = m_api.getClient();
+            client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
+            mito.AuthorId = Convert.ToInt64(HttpContext.Request.Cookies["Id"]);
+            var res = await client.PostAsync("api/mito", new StringContent(JsonConvert.SerializeObject(mito), Encoding.UTF8, "application/json"));
+            if (res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Mito");
+            }
+            else
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
         }
     }
 }

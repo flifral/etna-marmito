@@ -36,6 +36,7 @@ namespace MarmitoAPI.Controllers
             string tokens = Auth.getAuth().logUser(user);
             Token token = new Token();
             token.TokenValue = tokens;
+            token.Id = Auth.getAuth().getId(tokens);
 
             return new ObjectResult(token);
         }

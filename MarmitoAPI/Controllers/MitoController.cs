@@ -26,26 +26,56 @@ namespace MarmitoAPI.Controllers
             return new ObjectResult(m_context.Mitos.ToList());
         }
 
+        [HttpDelete("{id}", Name = "DeleteMito")]
+        public IActionResult RemoveMito(long Id)
+        {
+            if (!HttpContext.Request.Headers.ContainsKey("tokenValue") || !Auth.getAuth().isLogged(HttpContext.Request.Headers["tokenValue"]))
+            {
+                return BadRequest();
+            }
+
+            Mito mito = m_context.Mitos.FirstOrDefault(m => m.Id == Id);
+            if (mito != null)
+            {
+                m_context.Mitos.Remove(mito);
+                m_context.SaveChanges();
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [HttpGet("{id}", Name = "GetMito")]
         public IActionResult GetById(long id)
         {
+            if (!HttpContext.Request.Headers.ContainsKey("tokenValue") || !Auth.getAuth().isLogged(HttpContext.Request.Headers["tokenValue"]))
+            {
+                return BadRequest();
+            }
+
             var mito = m_context.Mitos.FirstOrDefault(u => u.Id == id);
             if (mito == null)
             {
                 return NotFound();
             }
 
+            return new ObjectResult(mito);
+        }
+
+        [HttpPost]
+        public IActionResult mito([FromBody] Mito mito)
+        {
             if (!HttpContext.Request.Headers.ContainsKey("tokenValue") || !Auth.getAuth().isLogged(HttpContext.Request.Headers["tokenValue"]))
             {
                 return BadRequest();
             }
 
-            return new ObjectResult(mito);
-        }
-        [HttpPost]
-        public IActionResult mito([FromBody] Mito mito)
-        {
             if (mito == null)
+            {
+                return BadRequest();
+            }
+
+            if (mito.AuthorId != Auth.getAuth().getLoggedUser(HttpContext.Request.Headers["tokenValue"]).Id)
             {
                 return BadRequest();
             }
@@ -59,6 +89,23 @@ namespace MarmitoAPI.Controllers
             m_context.SaveChanges();
 
             return CreatedAtRoute("GetMito", new {id = mito.Id}, mito);
+        }
+
+        [HttpPut]
+        public IActionResult update([FromBody] Mito mito)
+        {
+            if (!HttpContext.Request.Headers.ContainsKey("tokenValue") || !Auth.getAuth().isLogged(HttpContext.Request.Headers["tokenValue"]))
+            {
+                return BadRequest();
+            }
+
+            if (mito == null)
+            {
+                return BadRequest();
+            }
+
+            m_context.Mitos.Update(mito);
+            return Ok();
         }
     }
 }

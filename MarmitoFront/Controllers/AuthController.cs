@@ -82,6 +82,7 @@ namespace MarmitoFront.Controllers
 
 
             Response.Cookies.Append("tokenValue", token.TokenValue);
+            Response.Cookies.Append("Id", token.Id.ToString());
 
             return RedirectToAction("Index", "Home");
         }
@@ -89,6 +90,7 @@ namespace MarmitoFront.Controllers
         public IActionResult Logout()
         {
             Response.Cookies.Delete("tokenValue");
+            Response.Cookies.Delete("Id");
             return RedirectToAction("Index", "Home");
         }
 
