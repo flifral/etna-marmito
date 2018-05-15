@@ -5,6 +5,33 @@
     ViewData["Title"] = "Index";
 }
 
+<div id="title">
+    <img src="images/marmito.png">
+</div>
+
+
+@foreach (MarmitoAPI.Models.MitoUser mito in Model)
+{
+    <div class="mito">
+        <div>
+            <span class="bigquote">&#34</span>
+            <span class="mitocontent">@Html.DisplayFor(item => mito.Mito.Content)</span>
+            <span class="bigquote">&#34</span>
+        </div>
+        <div class="mitoauthor">
+            @mito.User.Name
+        </div>
+        <div>
+            <span>
+                <li>
+                    <a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Mito.Id"><img src="~/images/edit.svg"/></a>
+                </li>
+            </span>
+        </div>
+    </div>
+    <hr/>
+}
+
 <a asp-controller="Mito" asp-action="Create">Créer Mito</a>
 
 <form asp-action="Index" method="get">

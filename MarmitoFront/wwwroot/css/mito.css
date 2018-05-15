@@ -1,0 +1,11 @@
+.body-content
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bigquote
+{
+    font-size: 30px;
+}
