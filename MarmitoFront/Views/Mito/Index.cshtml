@@ -10,7 +10,7 @@
 </div>
 
 <div>
-        <form asp-action="Index" method="get">
+        <form asp-action="Index" method="get" id="filterform">
             <div class="form-actions no-color">
                 <p>
                     Filter par nom: <input id="filter" type="text" name="SearchString" value="@ViewData["currentFilter"]" />
@@ -23,19 +23,19 @@
                 <p>
                     <div>
                         <span>
-                            @Html.CheckBox("indisp", true)
+                            @Html.CheckBox("indisp", true, new {onclick = "checks()"})
                             <label for="indisp">Indisponible</label>
                         </span>
                         <span>
-                            @Html.CheckBox("famille", true)
+                            @Html.CheckBox("famille", true, new {onclick = "checks()"})
                             <label for="famille">Famille</label>
                         </span>
                         <span>
-                            @Html.CheckBox("travail", true)
+                            @Html.CheckBox("travail", true, new {onclick = "checks()"})
                             <label for="travail">Travail</label>
                         </span>
                         <span>
-                            @Html.CheckBox("amour", true)
+                            @Html.CheckBox("amour", true, new {onclick = "checks()"})
                             <label for="amour">Amour</label>
                         </span>
                     </div>
@@ -44,54 +44,56 @@
         </form>
 </div>
 
-@foreach (MarmitoAPI.Models.MitoUser mito in Model)
-{
-    <div class="mito">
-        <div class="mitocategory">
-            @if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
-            {
-                <span class="badge badge-pill badge-primary">Indisponible</span>
-            }
-            else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.FAMILY)
-            {
-                <span class="badge badge-pill badge-secondary">Famille</span>
-            }
-            else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.WORK)
-            {
-                <span class="badge badge-pill badge-success">Travail</span>
-            }
-            else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.LOVE)
-            {
-                <span class="badge badge-pill badge-danger">Amour</span>
-            }
-            else
-            {
-                <span class="badge badge-pill badge-dark">Autres</span>
-            }
-        </div>
-        <div>
-            <span class="mitocontent">&ldquo;&nbsp;@Html.DisplayFor(item => mito.Mito.Content)&nbsp;&rdquo;</span>
-        </div>
-        <div class="mitoauthor">
-            - Proposé par&nbsp;@mito.User.Name
-        </div>
-          @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("Id"))
+<div id="mitos">
+    @foreach (MarmitoAPI.Models.MitoUser mito in Model)
+    {
+        <div class="mito">
+            <div class="mitocategory">
+                @if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
                 {
-                    if (mito.Mito.AuthorId.ToString() == httpContextAccessor.HttpContext.Request.Cookies["Id"])
-                    {
-                        <div>
-                            <span>
-                                <a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Mito.Id"><img class="imgmenu" src="~/images/edit.svg"/></a>
-                            </span>
-                            <span>
-                                <a asp-area="" asp-controller="Mito" asp-action="Remove" asp-route-id="@mito.Mito.Id"><img class="imgmenu" src="~/images/cross.png"/></a>
-                            </span>
-                        </div>
-                    }
+                    <span class="badge badge-pill badge-primary">Indisponible</span>
                 }
-    </div>
-    <hr/>
-}
+                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.FAMILY)
+                {
+                    <span class="badge badge-pill badge-secondary">Famille</span>
+                }
+                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.WORK)
+                {
+                    <span class="badge badge-pill badge-success">Travail</span>
+                }
+                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.LOVE)
+                {
+                    <span class="badge badge-pill badge-danger">Amour</span>
+                }
+                else
+                {
+                    <span class="badge badge-pill badge-dark">Autres</span>
+                }
+            </div>
+            <div>
+                <span class="mitocontent">&ldquo;&nbsp;@Html.DisplayFor(item => mito.Mito.Content)&nbsp;&rdquo;</span>
+            </div>
+            <div class="mitoauthor">
+                - Proposé par&nbsp;@mito.User.Name
+            </div>
+            @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("Id"))
+                    {
+                        if (mito.Mito.AuthorId.ToString() == httpContextAccessor.HttpContext.Request.Cookies["Id"])
+                        {
+                            <div>
+                                <span>
+                                    <a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Mito.Id"><img class="imgmenu" src="~/images/edit.svg"/></a>
+                                </span>
+                                <span>
+                                    <a asp-area="" asp-controller="Mito" asp-action="Remove" asp-route-id="@mito.Mito.Id"><img class="imgmenu" src="~/images/cross.png"/></a>
+                                </span>
+                            </div>
+                        }
+                    }
+        </div>
+        <hr/>
+    }
+</div>
 
 <div>
     @{
