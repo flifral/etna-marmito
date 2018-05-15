@@ -16,7 +16,7 @@ namespace MarmitoFront.Controllers
     {
         private API m_api = new API();
         [HttpGet]
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, int? page)
         {
             if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
             {
@@ -39,7 +39,7 @@ namespace MarmitoFront.Controllers
                 mitos = mitos.Where(m => m.User.Name.Contains(searchString)).ToList();
             }
 
-            return View(mitos);
+            return View(PaginatedList<MarmitoAPI.Models.MitoUser>.Create(mitos, page ?? 1, 3));
         }
 
         [HttpGet("/Mito/Remove/{id}")]
