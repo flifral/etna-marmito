@@ -34,6 +34,12 @@ namespace MarmitoFront.Controllers
                 mitos = JsonConvert.DeserializeObject<List<MarmitoAPI.Models.MitoUser>>(result);
             }
 
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["Indisp"] = indisp;
+            ViewData["Famille"] = famille;
+            ViewData["travail"] = travail;
+            ViewData["amour"] = amour;
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 mitos = mitos.Where(m => m.User.Name.Contains(searchString)).ToList();
