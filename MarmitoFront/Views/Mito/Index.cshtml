@@ -20,6 +20,26 @@
                             <a asp-controller="Mito" asp-action="Create"><span id="plus" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
                         </span>
                 </p>
+                <p>
+                    <div>
+                        <span>
+                            @Html.CheckBox("indisp", true)
+                            <label for="indisp">Indisponible</label>
+                        </span>
+                        <span>
+                            @Html.CheckBox("famille", true)
+                            <label for="famille">Famille</label>
+                        </span>
+                        <span>
+                            @Html.CheckBox("travail", true)
+                            <label for="travail">Travail</label>
+                        </span>
+                        <span>
+                            @Html.CheckBox("amour", true)
+                            <label for="amour">Amour</label>
+                        </span>
+                    </div>
+                </p>
             </div>
         </form>
 </div>
