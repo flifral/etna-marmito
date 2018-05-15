@@ -44,7 +44,7 @@ namespace MarmitoFront.Controllers
                 {
                     return View("RegisterError");
                 }
-                return View();
+                return RedirectToAction("Login","Auth");
             }
             else
             {
