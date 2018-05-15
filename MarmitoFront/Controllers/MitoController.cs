@@ -16,7 +16,7 @@ namespace MarmitoFront.Controllers
     {
         private API m_api = new API();
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
             {
@@ -24,28 +24,22 @@ namespace MarmitoFront.Controllers
             }
             HttpClient client = m_api.getClient();
             client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
-            List<MarmitoAPI.Models.Mito> mitos = new List<MarmitoAPI.Models.Mito>();
-            List<MarmitoAPI.Models.User> users = new List<MarmitoAPI.Models.User>();
+
+            List<MarmitoAPI.Models.MitoUser> mitos = new List<MarmitoAPI.Models.MitoUser>();
+
             var res = await client.GetAsync("api/mito");
-            dynamic model = new ExpandoObject();
-
             if (res.IsSuccessStatusCode)
             {
                 var result = res.Content.ReadAsStringAsync().Result;
-                mitos = JsonConvert.DeserializeObject<List<MarmitoAPI.Models.Mito>>(result);
+                mitos = JsonConvert.DeserializeObject<List<MarmitoAPI.Models.MitoUser>>(result);
             }
 
-            res = await client.GetAsync("api/user");
-            if (res.IsSuccessStatusCode)
+            if (!String.IsNullOrEmpty(searchString))
             {
-                var result = res.Content.ReadAsStringAsync().Result;
-                users = JsonConvert.DeserializeObject<List<MarmitoAPI.Models.User>>(result);
+                mitos = mitos.Where(m => m.User.Name.Contains(searchString)).ToList();
             }
 
-            model.Mitos = mitos;
-            model.Users = users;
-
-            return View(model);
+            return View(mitos);
         }
 
         [HttpGet("/Mito/Remove/{id}")]

@@ -23,7 +23,8 @@ namespace MarmitoAPI.Controllers
             {
                 return BadRequest();
             }
-            return new ObjectResult(m_context.Mitos.ToList());
+            var query = m_context.Mitos.Join(m_context.Users, m => m.AuthorId, u => u.Id, (m, u) => new MitoUser (m, u)).ToList();
+            return new ObjectResult(query);
         }
 
         [HttpDelete("{id}", Name = "DeleteMito")]

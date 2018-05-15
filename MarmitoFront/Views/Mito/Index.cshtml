@@ -1,11 +1,21 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor;
-@model dynamic;
+@model List<MarmitoAPI.Models.MitoUser>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <a asp-controller="Mito" asp-action="Create">Créer Mito</a>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Tout afficher</a>
+        </p>
+    </div>
+</form>
 
 <table class="table">
     <thead>
@@ -18,23 +28,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (MarmitoAPI.Models.Mito mito in Model.Mitos)
+        @foreach (MarmitoAPI.Models.MitoUser mito in Model)
         {
-            <tr class="mito" id="@mito.Id">
-                <td>@Html.DisplayFor(item => mito.Content)</td>
-                @if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
+            <tr class="mito" id="@mito.Mito.Id">
+                <td>@Html.DisplayFor(item => mito.Mito.Content)</td>
+                @if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
                 {
                     <td>Indisponible</td>
                 }
-                else if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.FAMILY)
+                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.FAMILY)
                 {
                     <td>Famille</td>
                 }
-                else if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.WORK)
+                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.WORK)
                 {
                     <td>Travail</td>
                 }
-                else if (mito.Category == MarmitoAPI.Models.Mito.CategoryList.LOVE)
+                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.LOVE)
                 {
                     <td>Amour</td>
                 }
@@ -43,23 +53,15 @@
                     <td>Autres</td>
                 }
 
-                @{
-                    List<MarmitoAPI.Models.User> users = Model.Users;
-                    var user = users.Find(u => u.Id == mito.AuthorId);
-                    var userName = "Auteur inconnu";
-                    if (user != null)
-                    {
-                        userName = user.Name;
-                    }
-                }
-                <td>@userName</td>
+
+                <td>@mito.User.Name</td>
 
                 @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("Id"))
                 {
-                    if (mito.AuthorId.ToString() == httpContextAccessor.HttpContext.Request.Cookies["Id"])
+                    if (mito.Mito.AuthorId.ToString() == httpContextAccessor.HttpContext.Request.Cookies["Id"])
                     {
-                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Id">Éditer</a></li></td>
-                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Remove" asp-route-id="@mito.Id">Suppression</a></li></td>
+                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Mito.Id">Éditer</a></li></td>
+                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Remove" asp-route-id="@mito.Mito.Id">Suppression</a></li></td>
                     }
                 }
 
