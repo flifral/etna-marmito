@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond');
+
 .body-content
 {
     display: flex;
@@ -5,7 +7,55 @@
     align-items: center;
 }
 
+.imgmenu
+{
+    height: 20px;
+}
+
 .bigquote
 {
+    font-size: 42px;
+    font-family: "EB Garamond";
+}
+
+#plus
+{
     font-size: 30px;
+    color: #f36d38;
+    border: 10px solid #f36d38;
+    padding: 16px;
+    border-radius: 50%;
+}
+
+#plusspan
+{
+    position: absolute;
+    left: 100px;
+    top: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.mito
+{
+    width: 450px;
+}
+
+.badge
+{
+    font-size: 16px;
+    padding: 6px 12px;
+    background-color: #f36d38;
+}
+
+.mitocontent
+{
+    font-size: 28px;
+    font-style: italic;
+    font-family: "EB Garamond";    
+}
+
+#filter
+{
+    background-color: #f36d38
 }

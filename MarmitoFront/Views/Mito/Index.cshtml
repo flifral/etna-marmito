@@ -9,109 +9,101 @@
     <img src="images/marmito.png">
 </div>
 
+<div>
+        <form asp-action="Index" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    Filter par nom: <input id="filter" type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                    <input type="submit" value="Search" class="btn btn-default" /> |
+                    <a asp-action="Index">Tout afficher</a>
+                        <span id="plusspan">
+                            <a asp-controller="Mito" asp-action="Create"><span id="plus" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                        </span>
+                </p>
+            </div>
+        </form>
+</div>
 
 @foreach (MarmitoAPI.Models.MitoUser mito in Model)
 {
     <div class="mito">
+        <div class="mitocategory">
+            @if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
+            {
+                <span class="badge badge-pill badge-primary">Indisponible</span>
+            }
+            else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.FAMILY)
+            {
+                <span class="badge badge-pill badge-secondary">Famille</span>
+            }
+            else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.WORK)
+            {
+                <span class="badge badge-pill badge-success">Travail</span>
+            }
+            else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.LOVE)
+            {
+                <span class="badge badge-pill badge-danger">Amour</span>
+            }
+            else
+            {
+                <span class="badge badge-pill badge-dark">Autres</span>
+            }
+        </div>
         <div>
-            <span class="bigquote">&#34</span>
-            <span class="mitocontent">@Html.DisplayFor(item => mito.Mito.Content)</span>
-            <span class="bigquote">&#34</span>
+            <span class="mitocontent">&ldquo;&nbsp;@Html.DisplayFor(item => mito.Mito.Content)&nbsp;&rdquo;</span>
         </div>
         <div class="mitoauthor">
-            @mito.User.Name
+            - Proposé par&nbsp;@mito.User.Name
         </div>
-        <div>
-            <span>
-                <li>
-                    <a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Mito.Id"><img src="~/images/edit.svg"/></a>
-                </li>
-            </span>
-        </div>
+          @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("Id"))
+                {
+                    if (mito.Mito.AuthorId.ToString() == httpContextAccessor.HttpContext.Request.Cookies["Id"])
+                    {
+                        <div>
+                            <span>
+                                <a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Mito.Id"><img class="imgmenu" src="~/images/edit.svg"/></a>
+                            </span>
+                            <span>
+                                <a asp-area="" asp-controller="Mito" asp-action="Remove" asp-route-id="@mito.Mito.Id"><img class="imgmenu" src="~/images/cross.png"/></a>
+                            </span>
+                        </div>
+                    }
+                }
     </div>
     <hr/>
 }
 
-<a asp-controller="Mito" asp-action="Create">Créer Mito</a>
-
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Tout afficher</a>
-        </p>
-    </div>
-</form>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Mito</th>
-            <th>Categorie</th>
-            <th>Auteur</th>
-            <th>Edition</th>
-            <th>Suppression</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (MarmitoAPI.Models.MitoUser mito in Model)
-        {
-            <tr class="mito" id="@mito.Mito.Id">
-                <td>@Html.DisplayFor(item => mito.Mito.Content)</td>
-                @if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.INDISP)
-                {
-                    <td>Indisponible</td>
-                }
-                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.FAMILY)
-                {
-                    <td>Famille</td>
-                }
-                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.WORK)
-                {
-                    <td>Travail</td>
-                }
-                else if (mito.Mito.Category == MarmitoAPI.Models.Mito.CategoryList.LOVE)
-                {
-                    <td>Amour</td>
-                }
-                else
-                {
-                    <td>Autres</td>
-                }
-
-
-                <td>@mito.User.Name</td>
-
-                @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("Id"))
-                {
-                    if (mito.Mito.AuthorId.ToString() == httpContextAccessor.HttpContext.Request.Cookies["Id"])
-                    {
-                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Update" asp-route-id="@mito.Mito.Id">Éditer</a></li></td>
-                        <td><li><a asp-area="" asp-controller="Mito" asp-action="Remove" asp-route-id="@mito.Mito.Id">Suppression</a></li></td>
-                    }
-                }
-
-            </tr>
-        }
-    </tbody>
-
-</table>
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-page="@(Model.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @prevDisabled">
-    Précédent
-</a>
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-page="@(Model.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @nextDisabled">
-    Suivant
-</a>
+<div>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    <span>
+        <a asp-action="Index"
+        asp-route-sortOrder="@ViewData["CurrentSort"]"
+        asp-route-page="@(Model.PageIndex - 1)"
+        asp-route-currentFilter="@ViewData["CurrentFilter"]"
+        class="btn btn-default @prevDisabled">
+            Précédent
+        </a>
+    </span>
+    <span>
+        <a asp-action="Index"
+        asp-route-sortOrder="@ViewData["CurrentSort"]"
+        asp-route-page="@(Model.PageIndex + 1)"
+        asp-route-currentFilter="@ViewData["CurrentFilter"]"
+        class="btn btn-default @nextDisabled">
+            Suivant
+        </a>
+    </span>
+    @if (@Model.TotalPages == 0)
+    {
+        <span>0</span>
+    }
+    else
+    {
+        <span>@Model.PageIndex</span>
+    }
+    <span>/</span>
+    <span>@Model.TotalPages</span>
+</div>
