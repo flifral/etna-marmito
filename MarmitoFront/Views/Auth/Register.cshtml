@@ -6,19 +6,19 @@
 
 <h1>Enregistrer nouvel utilisateur</h1>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" class="form-register">
     <div>
-        <label asp-for="Name"></label>
-        <input asp-for="Name"/>
+        <label asp-for="Name" for="inputPassword" class="sr-only"></label>
+        <input asp-for="Name" type="text"  id="inputEmail" class="form-control" placeholder="Votre pseudo" required autofocus/>
         <span asp-validation-for="Name"></span>
-        <label asp-for="Email"></label>
-        <input asp-for="Email"/>
+        <label asp-for="Email" for="inputEmail" class="sr-only">Adresse email</label>
+        <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="Adresse email" required autofocus>
         <span asp-validation-for="Email"></span>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password"/>
-        <span asp-validation-for="Password"></span>
+        <label asp-for="Password" for="inputPassword" class="sr-only">Mot de passe</label>
+        <input asp-for="Password" type="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+        <span asp-validation-for="Password"></span><br>
     </div>
     <div>
-        <input type="submit" value="Créer utilisateur"/>
+        <input class="btn btn-lg btn-primary btn-block" role="alert" type="submit" type="submit" value="Créer utilisateur"/>
     </div>
 </form>
