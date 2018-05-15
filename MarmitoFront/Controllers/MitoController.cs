@@ -16,7 +16,7 @@ namespace MarmitoFront.Controllers
     {
         private API m_api = new API();
         [HttpGet]
-        public async Task<IActionResult> Index(string searchString, int? page)
+        public async Task<IActionResult> Index(string searchString, string indisp, string famille, string travail, string amour, int? page)
         {
             if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
             {
@@ -34,9 +34,35 @@ namespace MarmitoFront.Controllers
                 mitos = JsonConvert.DeserializeObject<List<MarmitoAPI.Models.MitoUser>>(result);
             }
 
+            ViewData["CurrentFilter"] = searchString;
+            ViewData["Indisp"] = indisp;
+            ViewData["Famille"] = famille;
+            ViewData["travail"] = travail;
+            ViewData["amour"] = amour;
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 mitos = mitos.Where(m => m.User.Name.Contains(searchString)).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(indisp) && indisp == "false")
+            {
+                mitos = mitos.Where(m => m.Mito.Category != MarmitoAPI.Models.Mito.CategoryList.INDISP).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(famille) && famille == "false")
+            {
+                mitos = mitos.Where(m => m.Mito.Category != MarmitoAPI.Models.Mito.CategoryList.FAMILY).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(travail) && travail == "false")
+            {
+                mitos = mitos.Where(m => m.Mito.Category != MarmitoAPI.Models.Mito.CategoryList.WORK).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(amour) && amour == "false")
+            {
+                mitos = mitos.Where(m => m.Mito.Category != MarmitoAPI.Models.Mito.CategoryList.LOVE).ToList();
             }
 
             return View(PaginatedList<MarmitoAPI.Models.MitoUser>.Create(mitos, page ?? 1, 3));
