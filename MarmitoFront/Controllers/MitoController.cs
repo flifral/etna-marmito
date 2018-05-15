@@ -48,6 +48,7 @@ namespace MarmitoFront.Controllers
             return View(model);
         }
 
+        [HttpGet("/Mito/Remove/{id}")]
         public async Task<IActionResult> Remove(long Id)
         {
             if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
@@ -57,6 +58,50 @@ namespace MarmitoFront.Controllers
             HttpClient client = m_api.getClient();
             client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
             var res = await client.DeleteAsync("api/mito/" + Id.ToString());
+            if (res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Mito");
+            }
+            else
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+        }
+
+        [HttpGet("/Mito/Update/{id}")]
+        public async Task<IActionResult> Update(long Id)
+        {
+            if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+
+            HttpClient client = m_api.getClient();
+            client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
+            var res = await client.GetAsync("api/mito/" + Id.ToString());
+            if (res.IsSuccessStatusCode)
+            {
+                var result = res.Content.ReadAsStringAsync().Result;
+                MarmitoAPI.Models.Mito mito = JsonConvert.DeserializeObject<MarmitoAPI.Models.Mito>(result);
+                return View(mito);
+            }
+            else
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(MarmitoAPI.Models.Mito mito)
+        {
+            if (!HttpContext.Request.Cookies.ContainsKey("tokenValue"))
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+
+            HttpClient client = m_api.getClient();
+            client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
+            var res = await client.PutAsync("api/mito", new StringContent(JsonConvert.SerializeObject(mito), Encoding.UTF8, "application/json"));
             if (res.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "Mito");

@@ -104,7 +104,10 @@ namespace MarmitoAPI.Controllers
                 return BadRequest();
             }
 
+            mito.AuthorId = Auth.getAuth().getLoggedUser(HttpContext.Request.Headers["tokenValue"]).Id;
+
             m_context.Mitos.Update(mito);
+            m_context.SaveChanges();
             return Ok();
         }
     }
