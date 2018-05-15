@@ -11,7 +11,7 @@
         <label asp-for="Content"></label>
         <textarea rows="4" cols="50" asp-for="Content">@Html.DisplayFor(model => model.Content)</textarea>
         <span asp-validation-for="Content"></span>
-        <select name="Category">
+        <select class="custom-select" name="Category">
             <option value="0">Indisponible</option>
             <option value="1">Famille</option>
             <option value="2">Travail</option>
@@ -19,6 +19,6 @@
         </select>
     </div>
     <div>
-        <input type="submit" value="Mettre à jour"/>
+        <input class=""btn btn-lg btn-primary btn-block type="submit" value="Mettre à jour"/>
     </div>
 </form>

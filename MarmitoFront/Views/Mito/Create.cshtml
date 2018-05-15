@@ -6,12 +6,16 @@
 
 <h1>Créer un Mito</h1>
 
-<form asp-action="Add" method="post">
+<form class="form" asp-action="Add" method="post">
     <div>
+        <div class="row">
+
         <label asp-for="Content"></label>
-        <textarea rows="4" cols="50" asp-for="Content"></textarea>
-        <span asp-validation-for="Content"></span>
-        <select name="Category">
+        </div>
+        <textarea class="textarea" rows="4" cols="50" asp-for="Content"></textarea>
+        <span asp-validation-for="Content"></span> <br><br>
+        <label asp-for="Category"></label>
+        <select name="Category" class="form-control form-control-lg" >
             <option value="0">Indisponible</option>
             <option value="1">Famille</option>
             <option value="2">Travail</option>
@@ -19,6 +23,7 @@
         </select>
     </div>
     <div>
-        <input type="submit" value="Créer Mito"/>
+        <br><br>
+        <input class="btn btn-warning btn-lg btn-block" type="submit" value="Créer Mito"/>
     </div>
 </form>
