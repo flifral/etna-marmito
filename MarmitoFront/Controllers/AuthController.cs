@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Dynamic;
+using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using MarmitoFront.Models;
@@ -37,6 +38,11 @@ namespace MarmitoFront.Controllers
                 {
                     return View("RegisterError");
                 }
+
+                var sha256 = System.Security.Cryptography.SHA256.Create();
+                byte[] pbytes = Encoding.ASCII.GetBytes(user.Password);
+                byte[] hash = sha256.ComputeHash(pbytes);
+                user.Password = Encoding.ASCII.GetString(hash, 0, hash.Length);
                 
                 HttpClient client = m_api.getClient();
                 var res = await client.PostAsync("api/register", new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));
@@ -69,6 +75,10 @@ namespace MarmitoFront.Controllers
                 }
             }
 
+            var sha256 = System.Security.Cryptography.SHA256.Create();
+            byte[] pbytes = Encoding.ASCII.GetBytes(login.Password);
+            byte[] hash = sha256.ComputeHash(pbytes);
+            login.Password = Encoding.ASCII.GetString(hash, 0, hash.Length);
             HttpClient client = m_api.getClient();
             var res = await client.PostAsync("api/login", new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json"));
 
@@ -129,6 +139,11 @@ namespace MarmitoFront.Controllers
             {
                 return RedirectToAction("Unauthorize", "Auth");
             }
+
+            var sha256 = System.Security.Cryptography.SHA256.Create();
+            byte[] pbytes = Encoding.ASCII.GetBytes(user.Password);
+            byte[] hash = sha256.ComputeHash(pbytes);
+            user.Password = Encoding.ASCII.GetString(hash, 0, hash.Length);
 
             HttpClient client = m_api.getClient();
             client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
