@@ -84,19 +84,62 @@ namespace MarmitoFront.Controllers
             Response.Cookies.Append("tokenValue", token.TokenValue);
             Response.Cookies.Append("Id", token.Id.ToString());
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Mito");
         }
 
         public IActionResult Logout()
         {
             Response.Cookies.Delete("tokenValue");
             Response.Cookies.Delete("Id");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Auth");
         }
 
         public IActionResult Unauthorize()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Manage()
+        {
+            if (!HttpContext.Request.Cookies.ContainsKey("tokenValue") ||
+                !HttpContext.Request.Cookies.ContainsKey("Id"))
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+            HttpClient client = m_api.getClient();
+            client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
+            var res = await client.GetAsync("api/user/" + HttpContext.Request.Cookies["Id"].ToString());
+
+            if (!res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+
+            var user = res.Content.ReadAsStringAsync().Result;
+            MarmitoAPI.Models.User u = JsonConvert.DeserializeObject<MarmitoAPI.Models.User>(user);
+
+            return View(u);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ManageUpdate(MarmitoAPI.Models.User user)
+        {
+            if (!HttpContext.Request.Cookies.ContainsKey("tokenValue") ||
+                !HttpContext.Request.Cookies.ContainsKey("Id"))
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+
+            HttpClient client = m_api.getClient();
+            client.DefaultRequestHeaders.Add("tokenValue", HttpContext.Request.Cookies["tokenValue"]);
+
+            var res = await client.PutAsync("api/user", new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));
+            if (!res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Unauthorize", "Auth");
+            }
+
+            return RedirectToAction("Index", "Mito");
         }
     }
 }

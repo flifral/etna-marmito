@@ -4,8 +4,6 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Enregistrer nouvel utilisateur</h1>
-
 <form asp-action="Create" method="post" class="form-register">
     <div>
         <label asp-for="Name" for="inputPassword" class="sr-only"></label>
@@ -22,3 +20,7 @@
         <input class="btn btn-lg btn-primary btn-block" role="alert" type="submit" type="submit" value="Créer utilisateur"/>
     </div>
 </form>
+
+<div>
+    <a class="btn btn-lg btn-warning btn-block" asp-controller="Auth" asp-action="Login">Retour</a>
+</div>

@@ -27,6 +27,7 @@ namespace MarmitoAPI
         {
             //services.AddDbContext<MarmitoContext>(opt => opt.UseInMemoryDatabase("MarmitoDB"));
             services.AddDbContext<MarmitoContext>(opt => opt.UseMySQL("server=localhost;port=3306;database=NET5;uid=net5;password=net5;SslMode=none"));
+            
             services.AddMvc();
         }
 

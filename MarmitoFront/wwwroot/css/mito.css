@@ -12,6 +12,14 @@
     justify-content: center;
 }
 
+body
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white !important;
+}
+
 .body-content
 {
     display: flex;
@@ -49,6 +57,24 @@
     justify-content: center;
 }
 
+#logout
+{
+    position: absolute;
+    right: 100px;
+    top: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+#account
+{
+    position: absolute;
+    right: 100px;
+    top: 250px;
+    display: flex;
+    justify-content: center;
+}
+
 .mito
 {
     width: 450px;
@@ -76,4 +102,9 @@
 #mitos
 {
     min-height: 50vh;
+}
+
+input
+{
+    margin-bottom: 16px !important;
 }

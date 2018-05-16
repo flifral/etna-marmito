@@ -23,7 +23,13 @@
     <link rel="stylesheet" href="~/css/register.css" />
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div id="title">
+        <img id="titleimg" src="~/images/marmito.png">
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <!--nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -37,8 +43,6 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <!--li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li-->
-                    <!--li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li-->
 
                     @if (httpContextAccessor.HttpContext.Request.Cookies.ContainsKey("tokenValue"))
                     {
@@ -53,14 +57,14 @@
                 </ul>
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
+    </nav-->
+    <!--div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; 2018 - MarmitoFront</p>
         </footer>
-    </div>
+    </div-->
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

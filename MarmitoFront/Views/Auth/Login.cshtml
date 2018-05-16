@@ -4,8 +4,6 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Se connecter</h1>
-
 <form asp-action="LoginUser" method="post" class="form-signin">
     <div>
         <label asp-for="Email" for="inputEmail" class="sr-only">Adresse email</label>
@@ -19,3 +17,6 @@
         <input class="btn btn-lg btn-primary btn-block" role="alert" type="submit" value="Se connecter"/>
     </div>
 </form>
+<div>
+    <a asp-action="Register" asp-controller="Auth">Pas encore inscrit ? Enregistrez vous !</a>
+</div>

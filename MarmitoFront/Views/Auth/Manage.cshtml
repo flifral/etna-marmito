@@ -1,0 +1,23 @@
+@model MarmitoAPI.Models.User;
+
+@{
+    ViewData["Title"] = "Manage";
+}
+
+<form asp-action="ManageUpdate" method="post" class="form-manage">
+    <div>
+        <label asp-for="Name" for="Name" class="sr-only"></label>
+        <input asp-for="Name" type="text"  id="Name" class="form-control" placeholder="Nouveau pseudo" required autofocus/>
+        <span asp-validation-for="Name"></span>
+        <label asp-for="Password" for="inputPassword" class="sr-only">Mot de passe</label>
+        <input asp-for="Password" type="password" id="inputPassword" class="form-control" placeholder="Nouveau mot de passe" required>
+        <span asp-validation-for="Password"></span><br>
+    </div>
+    <div>
+        <input class="btn btn-lg btn-primary btn-block" role="alert" type="submit" type="submit" value="Modifier utilisateur"/>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-lg btn-warning btn-block" asp-controller="Index" asp-action="Mito">Retour</a>
+</div>
