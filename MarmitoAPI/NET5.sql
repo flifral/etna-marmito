@@ -28,7 +28,7 @@ CREATE TABLE `Mitos` (
   `Category` int(11) NOT NULL,
   `Content` text,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `Mitos` (
 
 LOCK TABLES `Mitos` WRITE;
 /*!40000 ALTER TABLE `Mitos` DISABLE KEYS */;
-INSERT INTO `Mitos` VALUES (9,0,0,'Test mito bla bla bla'),(17,4,0,'Pardon, je pourrai pas venir, je suis débordé(e)'),(18,4,0,'Désolé, je suis pressé(e) là, mais je supporte totalement votre cause, vous faites du chouette boulot'),(19,4,0,'Pardon monsieur, je n’ai rien sur moi'),(20,4,0,'Je peux pas, j’ai aqua-poney ce jour-là !'),(21,5,1,'Si tu fais pas ce que je te dis le père Noël te donnera pas de cadeaux'),(22,5,1,'Ah au fait papa m’a dit que c’était à toi de mettre la table'),(23,5,1,'Mais ça fait que cinq minutes que j’ai commencé à jouer !'),(24,5,2,'J’ai attrapé la grippe'),(25,5,2,'Ma voiture ne démarre pas'),(26,5,2,'Plus de bus ni de métro, c’est la grève ! Y en a marre !'),(27,5,2,'Ma grand-mère est morte'),(28,6,3,'Tu sais, quand on a une fille en tête, les autres n’existent plus'),(29,6,3,'J’espère que tu seras plus heureuse avec lui que tu ne l’as été avec moi...'),(30,6,3,'On s’est quitté d’un commun accord'),(31,6,3,'Si je te trompais, tu crois vraiment que je t’aurais dit avoir passé la soirée avec elle hier soir ?'),(32,6,3,'Je te jure...c’est la première fois que ça m’arrive !');
+INSERT INTO `Mitos` VALUES (1,1,0,'Pardon, je pourrai pas venir, je suis débordé(e)'),(2,1,0,'Désolé, je suis pressé(e) là, mais je supporte totalement votre cause, vous faites du chouette boulot'),(3,1,0,'Pardon monsieur, je n’ai rien sur moi'),(4,1,0,'Je peux pas, j’ai aqua-poney ce jour-là !'),(5,2,1,'Si tu fais pas ce que je te dis le père Noël te donnera pas de cadeaux'),(6,2,1,'Ah au fait papa m’a dit que c’était à toi de mettre la table'),(7,2,1,'Mais ça fait que cinq minutes que j’ai commencé à jouer !'),(8,2,2,'J’ai attrapé la grippe'),(9,2,2,'Ma voiture ne démarre pas'),(10,2,2,' Plus de bus ni de métro, c’est la grève ! Y en a marre !'),(11,2,2,'Ma grand-mère est morte'),(12,3,3,'Tu sais, quand on a une fille en tête, les autres n’existent plus'),(13,3,3,'J’espère que tu seras plus heureuse avec lui que tu ne l’as été avec moi...'),(14,3,3,'On s’est quitté d’un commun accord'),(15,3,3,'Si je te trompais, tu crois vraiment que je t’aurais dit avoir passé la soirée avec elle hier soir ?'),(16,3,3,'Je te jure...c’est la première fois que ça m’arrive !');
 /*!40000 ALTER TABLE `Mitos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +54,7 @@ CREATE TABLE `Users` (
   `Name` text,
   `Password` text,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'machin@machadin.jfr','blaaa','pass'),(2,'bcxbcx@ggl','blblblbl','dsdfsdfsd'),(3,'test@test.test','TestUser','test'),(4,'fauque_x@etna-alternance.net','Fauque','fauque'),(5,'miksa_t@etna-alternance.net','Miksa','miksa'),(6,'bebel_f@etna-alternance.net','Bebel','bebel'),(7,'yotest@gmail.com','YoTest','yotest');
+INSERT INTO `Users` VALUES (1,'fauque_x@etna-alternance.net','Fauque','Uy????Wd?>}?J???aY??E?e?\"j?)?'),(2,'miksa_t@etna-alternance.net','Miksa','?????Y?\"1????v????{v??????'),(3,'bebel_f@etna-alternance.net','Bebel','???8??,??\"??	??8?k}.?u?`????(');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -76,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-16 10:24:39
+-- Dump completed on 2018-05-16 15:41:32
